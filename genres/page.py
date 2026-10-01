@@ -14,7 +14,6 @@ def show_genres():
         st.rerun()
 
     if genres:
-        # df = pd.DataFrame(genres)
         df = pd.json_normalize(genres)
         render_grid(df, key="genres_grid", title="Lista de Gêneros")
     else:

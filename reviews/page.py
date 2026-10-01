@@ -13,20 +13,13 @@ def show_reviews():
     movie_service = MovieService()
     movies = movie_service.get_movies()
 
-    # movies_dict_id_to_title = {movie['id']: movie['title'] for movie in movies} # dicionario usado no mapeamento
-    movies_dict_title_to_id = {movie['title']: movie['id'] for movie in movies}  # dicionario usado no selectedbox
+    movies_dict_title_to_id = {movie['title']: movie['id'] for movie in movies}
 
     if st.button('🔄 Atualizar Avaliações'):
         review_service.refresh_reviews()
         st.rerun()
 
     if reviews:
-        # df = pd.json_normalize(reviews)
-        # Desta forma. criando um dicionario
-        # df['movie_title'] = df['movie'].map(movies_dict_id_to_title)
-        # if 'movie' in df.columns:
-        #     df = df.drop(columns=['movie'])
-
         # Faz o merge (join) entre reviews e movies
         df_reviews = pd.json_normalize(reviews)
         df_movies = pd.json_normalize(movies)

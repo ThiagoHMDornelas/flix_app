@@ -1,10 +1,12 @@
 import requests
 
+from constants import BASE_URL
+
 
 class Auth:
 
     def __init__(self):
-        self.__base_url = 'https://thiagodornelas.pythonanywhere.com/api/v1/'
+        self.__base_url = BASE_URL
         self.__auth_url = f'{self.__base_url}authentication/token/'
 
     def get_token(self, username, password):
