@@ -43,6 +43,9 @@ O **Flix App** é o frontend do sistema de catálogo de filmes. Ele consome os e
 - Streamlit Option Menu
 - Pandas
 - python-decouple
+- Docker e Docker Compose
+- GitHub Actions (CI)
+- flake8 (desenvolvimento)
 
 ## Estrutura do projeto
 
