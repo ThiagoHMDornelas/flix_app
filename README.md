@@ -1,5 +1,6 @@
 # Flix App
 
+![Testes](https://github.com/ThiagoHMDornelas/flix_app/actions/workflows/tests.yml/badge.svg)
 ![Python](https://img.shields.io/badge/python-3.11%2B-blue)
 ![Streamlit](https://img.shields.io/badge/streamlit-1.52-FF4B4B)
 
@@ -148,6 +149,8 @@ O container acessa a Flix API pela URL definida em `BASE_URL`. Por padrão, o `d
 A suíte de testes cobre o cliente de autenticação (sucesso e erro) e o mapeamento de constantes. Execute:
 
     python -m unittest discover -v
+
+A suíte também roda automaticamente a cada `push` e `pull request` via **GitHub Actions** (`.github/workflows/tests.yml`), e o resultado é exibido no badge no topo deste README.
 
 ## Fluxo da aplicação
 
