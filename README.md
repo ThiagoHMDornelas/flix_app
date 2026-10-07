@@ -3,6 +3,7 @@
 ![Testes](https://github.com/ThiagoHMDornelas/flix_app/actions/workflows/tests.yml/badge.svg)
 ![Python](https://img.shields.io/badge/python-3.11%2B-blue)
 ![Streamlit](https://img.shields.io/badge/streamlit-1.52-FF4B4B)
+![License](https://img.shields.io/badge/license-MIT-green)
 
 Aplicação web para gerenciamento de filmes, desenvolvida com Streamlit. Serve como frontend do sistema, consumindo a [Flix API](https://github.com/ThiagoHMDornelas/flix_api) para autenticar, consultar e cadastrar dados.
 
@@ -19,6 +20,7 @@ Aplicação web para gerenciamento de filmes, desenvolvida com Streamlit. Serve 
 - [Fluxo da aplicação](#fluxo-da-aplicação)
 - [Organização do código](#organização-do-código)
 - [Relação com o Flix API](#relação-com-o-flix-api)
+- [Licença](#licença)
 
 ## Visão geral
 
@@ -133,19 +135,81 @@ O arquivo `.env` não é versionado (está no `.gitignore`).
 
 ## Executar com Docker
 
-Com o Docker e o Docker Compose instalados, é possível subir a aplicação sem configurar o ambiente Python manualmente:
+A forma recomendada de rodar o frontend. O Docker Compose sobe o serviço já configurado, sem precisar montar o ambiente Python manualmente.
 
-    docker compose up --build
+**Pré-requisitos:**
 
-A aplicação estará disponível em:
+- Docker Desktop instalado e em execução (engine)
+- Docker Compose (já vem com o Docker Desktop)
+- Git instalado (para clonar o repositório)
+- A [Flix API](https://github.com/ThiagoHMDornelas/flix_api) em execução na máquina host, na porta `8000`
+- A porta `8501` livre
 
-    http://localhost:8501
+> **Importante:** o Docker Desktop sozinho **não** faz o setup inicial — ele é o *engine* e o painel de gerenciamento. Clonar o repositório e rodar `docker compose up --build` são feitos pelo **terminal**; o Docker Desktop é ótimo para acompanhar logs, iniciar/parar e abrir um terminal dentro do container **depois** que a stack subiu.
 
-Para parar e remover os containers:
+> O Docker **não** precisa do arquivo `.env`: o `docker-compose.yml` já define `BASE_URL` apontando para a Flix API no host (`http://host.docker.internal:8000/api/v1/`). O `.env.example` é usado apenas na execução local (fora do Docker).
 
-    docker compose down
+### Passo a passo (via shell / PowerShell)
 
-O container acessa a Flix API pela URL definida em `BASE_URL`. Por padrão, o `docker-compose.yml` usa `http://host.docker.internal:8000/api/v1/`, que aponta para a API em execução na máquina host.
+**1. Clone o repositório**
+
+```powershell
+git clone https://github.com/ThiagoHMDornelas/flix_app.git
+cd flix_app
+```
+
+> O `git clone` cria a pasta `flix_app` dentro da pasta atual, e o `cd` entra nela. Se você **já está dentro** da pasta do projeto, **pule o `cd`**.
+
+**2. Suba a stack.** Na primeira execução o Docker compila a imagem do projeto — pode levar alguns minutos:
+
+```powershell
+docker compose up --build -d
+```
+
+**3. Confira os containers:**
+
+```powershell
+docker compose ps
+```
+
+Espere o serviço `web` como `Up`.
+
+| Serviço | Porta | Acesso |
+|---|---|---|
+| `web` | 8501 | `http://localhost:8501` |
+
+**4. Acesse a aplicação:**
+
+- Aplicação: `http://localhost:8501`
+
+**5. Comandos úteis:**
+
+```powershell
+docker compose logs -f web     # logs da aplicação
+docker compose restart web     # reinicia a aplicação
+docker compose down            # para e remove os containers
+```
+
+> O container acessa a Flix API pela URL definida em `BASE_URL`. Por padrão, o `docker-compose.yml` usa `http://host.docker.internal:8000/api/v1/`, que aponta para a API em execução na máquina host. Por isso a **Flix API precisa estar rodando** na porta `8000` antes de usar o frontend.
+
+### Usando o Docker Desktop (interface gráfica)
+
+Depois que a stack estiver no ar (passo 2), o Docker Desktop ajuda a operar. Na aba **Containers** você verá o serviço `web`:
+
+- **Logs**: clique no container → aba *Logs* (equivale a `docker compose logs`).
+- **Start / Stop / Restart**: botões no topo do container.
+- **Terminal no container**: botão *Exec* (útil para depurar dentro do container).
+- **Abrir no navegador**: clique na porta publicada (`8501:8501`).
+
+O que **não** dá para fazer pela interface gráfica: clonar o repositório e rodar `docker compose up --build` em um clone novo (isso é feito pelo terminal).
+
+### Problemas comuns
+
+- **A aplicação abre, mas não carrega dados / login falha** → a **Flix API não está rodando** na máquina host. Suba a API (na porta `8000`) e recarregue a página.
+- **A aplicação não abre**
+  - Veja os logs: `docker compose logs -f web`
+  - Confirme que o container está `Up`: `docker compose ps`
+- **Erro de porta em uso** (`8501`) → pare o serviço que ocupa a porta ou ajuste o mapeamento no `docker-compose.yml` (ex.: `8502:8501`) e acesse em `http://localhost:8502`
 
 ## Testes
 
@@ -185,3 +249,7 @@ A comunicação segue a camada:
 O **Flix App** funciona como frontend do sistema. Ele depende da **Flix API** para funcionar corretamente e não acessa diretamente o banco de dados — todas as operações são realizadas por meio dos endpoints da API.
 
 > https://github.com/ThiagoHMDornelas/flix_api
+
+## Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
