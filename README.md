@@ -7,9 +7,14 @@
 
 Aplicação web para gerenciamento de filmes, desenvolvida com Streamlit. Serve como frontend do sistema, consumindo a [Flix API](https://github.com/ThiagoHMDornelas/flix_api) para autenticar, consultar e cadastrar dados.
 
+![Dashboard do Flix App](docs/img/flixapp_dashboard.png)
+
+*Dashboard — estatísticas de filmes por gênero.*
+
 ## Sumário
 
 - [Visão geral](#visão-geral)
+- [Telas do projeto](#telas-do-projeto)
 - [Funcionalidades](#funcionalidades)
 - [Tecnologias](#tecnologias)
 - [Estrutura do projeto](#estrutura-do-projeto)
@@ -25,6 +30,16 @@ Aplicação web para gerenciamento de filmes, desenvolvida com Streamlit. Serve 
 ## Visão geral
 
 O **Flix App** é o frontend do sistema de catálogo de filmes. Ele consome os endpoints da Flix API, autentica o usuário via JWT e oferece uma interface web em Streamlit para consultar e cadastrar filmes, gêneros, atores/atrizes e avaliações.
+
+## Telas do projeto
+
+**Login** — autenticação na Flix API via JWT:
+
+![Login](docs/img/flixapp_login.png)
+
+**Filmes** — grid interativo com busca global, filtros, seleção de colunas e exportação para CSV, além do formulário de cadastro:
+
+![Filmes](docs/img/flixapp_movies.png)
 
 ## Funcionalidades
 
